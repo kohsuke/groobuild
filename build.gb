@@ -1,0 +1,12 @@
+task("test.in" : depends("test.original")) {
+    touch(file:"test.in");
+}
+
+task("test.out" : depends("test.in")) {
+    println "building test.out";
+    copy(tofile:"test.out",file:"test.in");
+}
+
+task("nodependency") {
+    println("nodep");
+}
