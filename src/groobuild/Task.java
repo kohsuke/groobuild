@@ -12,7 +12,7 @@ public interface Task {
      */
     String getName();
 
-    GrooProject getScope();
+    GrooProject getProject();
 
     Dependency getDependency();
 

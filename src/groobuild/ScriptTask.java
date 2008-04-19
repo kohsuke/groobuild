@@ -46,7 +46,7 @@ public class ScriptTask extends AbstractTaskImpl {
         System.out.println("Running "+name);
 
         for (Closure action : actions) {
-            action.setDelegate(scope);
+            action.setDelegate(project);
             action.call(this);
         }
 

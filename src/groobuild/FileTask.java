@@ -31,4 +31,12 @@ public class FileTask extends ScriptTask {
         // equal time stamp should be considered attained --- imagine the copy operation for example.
         return super.isAttained() || dependency.timestamp().compareTo(timestamp()) <= 0;
     }
+
+    /**
+     * This makes the conversion implicit when a {@link FileTask} is
+     * passed to Ant task as a parameter.
+     */
+    public String toString() {
+        return target.getPath();
+    }
 }

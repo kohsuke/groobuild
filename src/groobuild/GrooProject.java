@@ -70,6 +70,29 @@ public class GrooProject extends GroovyObjectSupport {
         }
     }
 
+    public FileTask file(File path) {
+        return new FileTask(this,path);
+    }
+
+    public FileTask file(String path) {
+        return file(toFile(path));
+    }
+
+    public FileTask dir(File path) {
+        return new FileTask(this,path);
+    }
+
+    public FileTask dir(String path) {
+        return dir(toFile(path));
+    }
+
+    /**
+     * TODO: base directory resolution.
+     */
+    private File toFile(String path) {
+        return new File(path);
+    }
+
     /**
      * Defines a task. This is a binding for Groovy.
      */
@@ -118,7 +141,7 @@ public class GrooProject extends GroovyObjectSupport {
         if(t!=null)     return t;
 
         // is this a file?
-        File f = new File(name);
+        File f = toFile(name);
         if(f.exists()) {
             t = new FileTask(this,f);
             tasks.put(name,t);

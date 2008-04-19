@@ -1,6 +1,7 @@
 inherit "JavaProject";
 
 compile.version = "1.4"
+compile.sources = ["src"]
 
 task("test.in" : depends("test.original")) {
     touch(file:"test.in");

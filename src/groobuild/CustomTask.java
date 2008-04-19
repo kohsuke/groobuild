@@ -47,7 +47,7 @@ public abstract class CustomTask extends AbstractTaskImpl {
         try {
             return super.invokeMethod(name, args);
         } catch (MissingMethodException e) {
-            return scope.ant.invokeMethod(name,args);
+            return project.ant.invokeMethod(name,args);
         }
     }
 }

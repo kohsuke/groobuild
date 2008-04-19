@@ -8,14 +8,14 @@ import java.util.Date;
  * @author Kohsuke Kawaguchi
  */
 public abstract class AbstractTaskImpl extends GroovyObjectSupport implements Task {
-    protected final GrooProject scope;
+    protected final GrooProject project;
     protected final String name;
     protected final Dependency dependency;
 
-    public AbstractTaskImpl(GrooProject scope, String name, Dependency dependency) {
-        this.scope = scope;
+    public AbstractTaskImpl(GrooProject project, String name, Dependency dependency) {
+        this.project = project;
         this.name = name;
-        if(dependency==null)   dependency = new Dependency(scope);
+        if(dependency==null)   dependency = new Dependency(project);
         this.dependency = dependency;
     }
 
@@ -27,8 +27,8 @@ public abstract class AbstractTaskImpl extends GroovyObjectSupport implements Ta
         return dependency;
     }
 
-    public GrooProject getScope() {
-        return scope;
+    public GrooProject getProject() {
+        return project;
     }
 
     public Date timestamp() {

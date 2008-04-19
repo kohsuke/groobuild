@@ -1,4 +1,4 @@
-def target = "target/classes"
+target = dir("target/classes")
 
 // TODO: if only Groovy had anonymous class...
 class CompileTask extends groobuild.CustomTask {
@@ -8,17 +8,22 @@ class CompileTask extends groobuild.CustomTask {
     // classpath
     def classpath = []
 
+    def sources = [project.dir("src/main/java")]
+
     void setVersion(v) {
         options.source=options.target=v.toString()
     }
 
     void execute() {
-        // TODO: this shall become javac
-        println( [source:"1.5",target:"1.5"]+options)
+        javac( [source:"1.5",
+                target:"1.5",
+                srcdir:sources.join(':'),
+                destdir:project.target]+options )
     }
 }
 
 compile = new CompileTask()
+
 
 task("clean") {
     delete(dir:target)
