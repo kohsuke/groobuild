@@ -22,21 +22,20 @@ import java.util.Map.Entry;
  * @author Kohsuke Kawaguchi
  */
 public class GrooProject extends GroovyObjectSupport {
+    //public final Project antProject = new Project();
+    /**
+     * Expose "ant" to the build script so that the script
+     * can refer to Ant tasks even when they have colliding names
+     * in this project.
+     */
+    public final AntBuilder ant = new AntBuilder();
+
     private final Map<String,Task> tasks = new HashMap<String,Task>();
 
     private final Session session;
 
     public GrooProject(Session session) {
         this.session = session;
-    }
-
-    /**
-     * Expose "ant" to the build script so that the script
-     * can refer to Ant tasks even when they have colliding names
-     * in this project.
-     */
-    public AntBuilder getAnt() {
-        return session.antBuilder;
     }
 
     public Session getSession() {
@@ -49,8 +48,10 @@ public class GrooProject extends GroovyObjectSupport {
     public void inherit(String name) throws IOException {
         // check built-in resources
         URL res = getClass().getClassLoader().getResource(name + ".groovy");
-        if(res!=null)
+        if(res!=null) {
             load(session.parse(res));
+            return;
+        }
 
         throw new IOException("No such script: "+name);
     }
@@ -63,26 +64,34 @@ public class GrooProject extends GroovyObjectSupport {
     /**
      * Defines a task. This is a binding for Groovy.
      */
-    public void task(Map<String,Dependency> decl, Closure c) {
+    public Task task(Map<String,Dependency> decl, Closure c) {
         if(decl.size()!=1)
             throw new IllegalArgumentException("Size 1 map is expected but got "+decl);
 
         Entry<String,Dependency> e = decl.entrySet().iterator().next();
 
-        task(e.getKey(),e.getValue(),c);
+        return task(e.getKey(),e.getValue(),c);
     }
 
-    public void task(String taskName, Dependency dep, Closure c) {
+    public Task task(String taskName, Dependency dep, Closure c) {
         ScriptTask t = new ScriptTask(this,taskName,dep);
         t.add(c);
         tasks.put(taskName,t);
+        return t;
     }
 
     /**
      * Defines a task without dependencies.
      */
-    public void task(String target, Closure c) {
-        task(target,null,c);
+    public Task task(String target, Closure c) {
+        return task(target,null,c);
+    }
+
+    /**
+     * Defines anonymous task.
+     */
+    public Task task(Closure c) {
+        return task(null,null,c);
     }
 
     // TODO: allow partial task definition
@@ -133,7 +142,25 @@ public class GrooProject extends GroovyObjectSupport {
         try {
             return super.invokeMethod(name, args);
         } catch (MissingMethodException e) {
-            return getAnt().invokeMethod(name,args);
+            return ant.invokeMethod(name,args);
         }
+    }
+
+    /**
+     * Pretend as if all the tasks are properties.
+     */
+    public Object getProperty(String property) {
+        Task t = tasks.get(property);
+        if(t!=null)
+            return t;
+        return super.getProperty(property);
+    }
+
+    public void setProperty(String property, Object newValue) {
+        if(newValue instanceof Task) {
+            Task t = (Task)newValue;
+            tasks.put(property,t);
+        }
+        super.setProperty(property, newValue);
     }
 }

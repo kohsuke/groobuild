@@ -1,8 +1,7 @@
 package groobuild;
 
-import groovy.lang.GroovyShell;
 import groovy.lang.Binding;
-import groovy.util.AntBuilder;
+import groovy.lang.GroovyShell;
 import org.codehaus.groovy.control.CompilerConfiguration;
 
 import java.io.File;
@@ -16,10 +15,6 @@ public class Session {
     public final ExpandableClassLoader classLoader;
 
     private final GroovyShell parser;
-
-    //public final Project antProject = new Project();
-    public final AntBuilder antBuilder = new AntBuilder();
-
 
     public Session(ClassLoader classLoader) {
         this.classLoader = new ExpandableClassLoader(classLoader);
