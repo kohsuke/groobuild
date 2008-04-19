@@ -19,11 +19,11 @@ public class ScriptTask extends AbstractTaskImpl {
 
     private boolean attained;
 
-    public ScriptTask(GrooBuildScript scope, String name, Dependency dep) {
+    public ScriptTask(GrooProject scope, String name, Dependency dep) {
         super(scope,name,dep);
     }
 
-    public ScriptTask(GrooBuildScript scope, String name) {
+    public ScriptTask(GrooProject scope, String name) {
         this(scope,name,null);
     }
 

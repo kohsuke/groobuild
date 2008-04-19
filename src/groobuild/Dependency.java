@@ -10,15 +10,15 @@ import java.util.List;
  * @author Kohsuke Kawaguchi
  */
 public class Dependency implements Iterable<Task> {
-    public final GrooBuildScript scope;
+    public final GrooProject scope;
 
     private final List<String> list = new ArrayList<String>();
 
-    public Dependency(GrooBuildScript scope) {
+    public Dependency(GrooProject scope) {
         this.scope = scope;
     }
 
-    public Dependency(GrooBuildScript scope, String... args) {
+    public Dependency(GrooProject scope, String... args) {
         this(scope);
         list.addAll(Arrays.asList(args));
     }

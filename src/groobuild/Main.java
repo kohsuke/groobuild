@@ -19,10 +19,10 @@ public class Main {
 
         Binding binding = new Binding();
         CompilerConfiguration cc = new CompilerConfiguration();
-        cc.setScriptBaseClass(GrooBuildScript.class.getName());
+        cc.setScriptBaseClass(GrooProject.class.getName());
         GroovyShell shell = new GroovyShell(ecl,binding,cc);
 
-        GrooBuildScript s = (GrooBuildScript)shell.parse(buildScript);
+        GrooProject s = (GrooProject)shell.parse(buildScript);
         s.run();
 
         s.attain(args);

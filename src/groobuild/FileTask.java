@@ -10,7 +10,7 @@ import java.util.Date;
 public class FileTask extends ScriptTask {
     public final File target;
 
-    public FileTask(GrooBuildScript scope, File f) {
+    public FileTask(GrooProject scope, File f) {
         super(scope, f.getPath());
         this.target = f;
     }

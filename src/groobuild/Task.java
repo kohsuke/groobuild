@@ -12,7 +12,7 @@ public interface Task {
      */
     String getName();
 
-    GrooBuildScript getScope();
+    GrooProject getScope();
 
     Dependency getDependency();
 

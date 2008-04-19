@@ -6,11 +6,11 @@ import java.util.Date;
  * @author Kohsuke Kawaguchi
  */
 public abstract class AbstractTaskImpl implements Task {
-    protected final GrooBuildScript scope;
+    protected final GrooProject scope;
     protected final String name;
     protected final Dependency dependency;
 
-    public AbstractTaskImpl(GrooBuildScript scope, String name, Dependency dependency) {
+    public AbstractTaskImpl(GrooProject scope, String name, Dependency dependency) {
         this.scope = scope;
         this.name = name;
         if(dependency==null)   dependency = new Dependency(scope);
@@ -25,7 +25,7 @@ public abstract class AbstractTaskImpl implements Task {
         return dependency;
     }
 
-    public GrooBuildScript getScope() {
+    public GrooProject getScope() {
         return scope;
     }
 
