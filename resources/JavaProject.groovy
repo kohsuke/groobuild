@@ -1,7 +1,7 @@
 def target = "target/classes"
 
 // TODO: if only Groovy had anonymous class...
-class CompileTask extends groobuild.ScriptTask {
+class CompileTask extends groobuild.CustomTask {
     // compiler options. passed as attributes to <javac> task
     def options = [:]
 
@@ -12,7 +12,7 @@ class CompileTask extends groobuild.ScriptTask {
         options.source=options.target=v.toString()
     }
 
-    void attain() {
+    void execute() {
         // TODO: this shall become javac
         println( [source:"1.5",target:"1.5"]+options)
     }

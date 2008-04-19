@@ -3,9 +3,7 @@ package groobuild;
 import groovy.lang.Closure;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Task that executes the groovy script once.
@@ -29,14 +27,6 @@ public class ScriptTask extends AbstractTaskImpl {
         this(scope,name,null);
     }
 
-    /**
-     * Intended for the custom task sub-class.
-     */
-    protected ScriptTask() {
-        // obtains the current project from the parsing context,
-        // and make it anonymous
-        this(GrooProject.getCurrent(),null);
-    }
 
     public void add(Closure a) {
         actions.add(a);
@@ -45,7 +35,7 @@ public class ScriptTask extends AbstractTaskImpl {
     public void attain() {
         if(attained)
             // optimization. if we know that this task and its dependencies
-            // have already been attained, there's no point in doing dependency.attain() 
+            // have already been attained, there's no point in doing dependency.attain()
             return;
 
         dependency.attain();
