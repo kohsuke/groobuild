@@ -34,6 +34,8 @@ public class GrooProject extends GroovyObjectSupport {
 
     private final Session session;
 
+    private static ThreadLocal<GrooProject> PARSING_SCOPE = new ThreadLocal<GrooProject>();
+
     public GrooProject(Session session) {
         this.session = session;
     }
@@ -58,7 +60,14 @@ public class GrooProject extends GroovyObjectSupport {
 
     public void load(ClosureScript definition) {
         definition.setDelegate(this);
-        definition.run();
+        
+        GrooProject old = PARSING_SCOPE.get();
+        PARSING_SCOPE.set(this);
+        try {
+            definition.run();
+        } finally {
+            PARSING_SCOPE.set(old);
+        }
     }
 
     /**
@@ -162,5 +171,12 @@ public class GrooProject extends GroovyObjectSupport {
             tasks.put(property,t);
         }
         super.setProperty(property, newValue);
+    }
+
+    public static GrooProject getCurrent() {
+        GrooProject project = PARSING_SCOPE.get();
+        if(project==null)
+            throw new Error("No project available in scope");
+        return project;
     }
 }

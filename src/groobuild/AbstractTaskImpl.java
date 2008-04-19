@@ -1,11 +1,13 @@
 package groobuild;
 
+import groovy.lang.GroovyObjectSupport;
+
 import java.util.Date;
 
 /**
  * @author Kohsuke Kawaguchi
  */
-public abstract class AbstractTaskImpl implements Task {
+public abstract class AbstractTaskImpl extends GroovyObjectSupport implements Task {
     protected final GrooProject scope;
     protected final String name;
     protected final Dependency dependency;

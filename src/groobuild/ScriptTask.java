@@ -3,7 +3,9 @@ package groobuild;
 import groovy.lang.Closure;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Task that executes the groovy script once.
@@ -25,6 +27,15 @@ public class ScriptTask extends AbstractTaskImpl {
 
     public ScriptTask(GrooProject scope, String name) {
         this(scope,name,null);
+    }
+
+    /**
+     * Intended for the custom task sub-class.
+     */
+    protected ScriptTask() {
+        // obtains the current project from the parsing context,
+        // and make it anonymous
+        this(GrooProject.getCurrent(),null);
     }
 
     public void add(Closure a) {
