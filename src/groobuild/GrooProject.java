@@ -1,31 +1,63 @@
 package groobuild;
 
-import groovy.lang.Binding;
 import groovy.lang.Closure;
+import groovy.lang.GroovyObjectSupport;
 import groovy.lang.MissingMethodException;
-import groovy.lang.Script;
 import groovy.util.AntBuilder;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 /**
+ * Project definition.
+ *
+ * <p>
+ * This object also serves as the delegate when we execute task definitions
+ * as closures.
+ *
  * @author Kohsuke Kawaguchi
  */
-public abstract class GrooProject extends Script {
+public class GrooProject extends GroovyObjectSupport {
     private final Map<String,Task> tasks = new HashMap<String,Task>();
 
-    //public final Project antProject = new Project();
-    public final AntBuilder antBuilder = new AntBuilder();
+    private final Session session;
 
-
-    public GrooProject() {
+    public GrooProject(Session session) {
+        this.session = session;
     }
 
-    public GrooProject(Binding binding) {
-        super(binding);
+    /**
+     * Expose "ant" to the build script so that the script
+     * can refer to Ant tasks even when they have colliding names
+     * in this project.
+     */
+    public AntBuilder getAnt() {
+        return session.antBuilder;
+    }
+
+    public Session getSession() {
+        return session;
+    }
+
+    /**
+     * Loads the definition from another GrooBuild script.
+     */
+    public void inherit(String name) throws IOException {
+        // check built-in resources
+        URL res = getClass().getClassLoader().getResource(name + ".groovy");
+        if(res!=null)
+            load(session.parse(res));
+
+        throw new IOException("No such script: "+name);
+    }
+
+    public void load(ClosureScript definition) {
+        definition.setDelegate(this);
+        definition.run();
     }
 
     /**
@@ -101,7 +133,7 @@ public abstract class GrooProject extends Script {
         try {
             return super.invokeMethod(name, args);
         } catch (MissingMethodException e) {
-            return antBuilder.invokeMethod(name,args);
+            return getAnt().invokeMethod(name,args);
         }
     }
 }

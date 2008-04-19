@@ -1,3 +1,5 @@
+inherit "JavaProject";
+
 task("test.in" : depends("test.original")) {
     touch(file:"test.in");
 }

@@ -15,18 +15,13 @@ public class Main {
         File dir = new File(".");
         File buildScript = findBuildScript(dir);
 
-        ExpandableClassLoader ecl = new ExpandableClassLoader(Main.class.getClassLoader());
+        Session session = new Session(Main.class.getClassLoader());
+        GrooProject p = new GrooProject(session);
+        p.load(session.parse(buildScript));
 
-        Binding binding = new Binding();
-        CompilerConfiguration cc = new CompilerConfiguration();
-        cc.setScriptBaseClass(GrooProject.class.getName());
-        GroovyShell shell = new GroovyShell(ecl,binding,cc);
-
-        GrooProject s = (GrooProject)shell.parse(buildScript);
-        s.run();
-
-        s.attain(args);
+        p.attain(args);
     }
+
 
     public static File findBuildScript(File dir) {
         for( ; dir!=null && dir.exists(); dir=dir.getParentFile()) {

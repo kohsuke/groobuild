@@ -53,7 +53,13 @@ public abstract class ClosureScript extends Script {
         this.delegate = delegate;
     }
 
+    public GroovyObject getDelegate() {
+        return delegate;
+    }
+
     public Object invokeMethod(String name, Object args) {
+        if(delegate==null)
+            return super.invokeMethod(name, args);
         try {
             return delegate.invokeMethod(name,args);
         } catch (MissingMethodException mme) {
@@ -62,6 +68,8 @@ public abstract class ClosureScript extends Script {
     }
 
     public Object getProperty(String property) {
+        if(delegate==null)
+            return super.getProperty(property);
         try {
             return delegate.getProperty(property);
         } catch (MissingPropertyException e) {
@@ -70,6 +78,10 @@ public abstract class ClosureScript extends Script {
     }
 
     public void setProperty(String property, Object newValue) {
+        if(delegate==null) {
+            super.setProperty(property,newValue);
+            return;
+        }
         try {
             delegate.setProperty(property,newValue);
         } catch (MissingPropertyException e) {

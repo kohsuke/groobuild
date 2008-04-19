@@ -1,8 +1,5 @@
+target = "target/classes"
 
-JavaProject = GrooProject {
-    target = dir("target/classes")
-
-    clean = task {
-        delete(dir:target)
-    }
+task("clean") {
+    delete(dir:target)
 }
