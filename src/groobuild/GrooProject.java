@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map.Entry;
 
 import groobuild.ProxyTask.Resolver;
@@ -30,7 +32,7 @@ public class GrooProject extends GroovyObjectSupport {
      * can refer to Ant tasks even when they have colliding names
      * in this project.
      */
-    public final AntBuilder ant = new AntBuilder();
+    public final AntBuilder ant;
 
     private final Map<String,Task> tasks = new HashMap<String,Task>();
 
@@ -44,6 +46,7 @@ public class GrooProject extends GroovyObjectSupport {
     public GrooProject(Session session, File baseDir) {
         this.session = session;
         this.baseDir = baseDir;
+        this.ant = session.createAntBuilder();
     }
 
     public Session getSession() {
@@ -166,6 +169,10 @@ public class GrooProject extends GroovyObjectSupport {
     }
 
     public void attain(String... taskNames) {
+        attain(Arrays.asList(taskNames));
+    }
+
+    public void attain(Collection<String> taskNames) {
         for (String s : taskNames)
             attain(s);
     }
