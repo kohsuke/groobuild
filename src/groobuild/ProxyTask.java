@@ -40,6 +40,10 @@ final class ProxyTask extends GroovyObjectSupport implements Task {
         this(literal(ft));
     }
 
+    public void redefine(GrooProject project, Object dir) {
+        resolver = literal(FileTask.coerce(project,dir));
+    }
+
     public FileTask getDelegate() {
         return resolver.resolve();
     }

@@ -8,8 +8,7 @@ import java.io.IOException;
  */
 public class Main {
     public static void main(String[] args) throws IOException {
-        File dir = new File(".");
-        File buildScript = findBuildScript(dir);
+        File buildScript = findBuildScript(new File("."));
 
 //        new core();
 
@@ -17,9 +16,10 @@ public class Main {
         // this is too late because Ant wants to see tools.jar in the same classloader
         // see CompilerAdapterFactory
         // session.addToolsJar();
-        GrooProject p = new GrooProject(session);
+        GrooProject p = new GrooProject(session,buildScript.getParentFile());
         p.load(session.parse(buildScript));
 
+        // TODO: detect cyclic execution of tasks
         p.attain(args);
     }
 

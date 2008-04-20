@@ -38,8 +38,12 @@ public class GrooProject extends GroovyObjectSupport {
 
     private static ThreadLocal<GrooProject> PARSING_SCOPE = new ThreadLocal<GrooProject>();
 
-    public GrooProject(Session session) {
+    public final File baseDir;
+
+
+    public GrooProject(Session session, File baseDir) {
         this.session = session;
+        this.baseDir = baseDir;
     }
 
     public Session getSession() {
@@ -80,10 +84,10 @@ public class GrooProject extends GroovyObjectSupport {
     }
 
     /**
-     * TODO: base directory resolution.
+     * Resolves a relative path from {@link #baseDir}.
      */
     private File toFile(String path) {
-        return new File(path);
+        return new File(baseDir,path);
     }
 
     /**
