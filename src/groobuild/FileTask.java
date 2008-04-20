@@ -15,6 +15,14 @@ public class FileTask extends ScriptTask {
         this.target = f;
     }
 
+    /**
+     * Updates this file (attains this task) and then returns it.
+     */
+    public File build() {
+        attain();
+        return target;
+    }
+
     @Override
     public Date timestamp() {
         if(target.exists())

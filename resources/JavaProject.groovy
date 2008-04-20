@@ -43,7 +43,8 @@ class CompileTask extends groobuild.CustomTask {
         mkdir(dir:target)
         javac( [source:"1.5",
                 target:"1.5",
-                srcdir:sources.join(':'),
+                srcdir:toPath(sources),
+                classpath:toPath(classpath),
                 destdir:target] + options )
     }
 }

@@ -11,6 +11,8 @@ public class Main {
         File dir = new File(".");
         File buildScript = findBuildScript(dir);
 
+//        new core();
+
         Session session = new Session(Main.class.getClassLoader());
         // this is too late because Ant wants to see tools.jar in the same classloader
         // see CompilerAdapterFactory
