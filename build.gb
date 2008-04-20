@@ -8,6 +8,10 @@ inherit "JavaProject";
 compile.version = 1.5
 compile.sources = ["src"]
 
+// or with the fluent API pattern
+compile._for(1.5).from("src")
+
+
 task("test.in" : depends("test.original")) {
     touch(file:"test.in");
 }

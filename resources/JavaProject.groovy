@@ -25,6 +25,16 @@ class CompileTask extends groobuild.CustomTask {
         options.source=options.target=v.toString()
     }
 
+    CompileTask _for(v) {
+        version = v
+        return this
+    }
+
+    CompileTask from(Object[] args) {
+        sources = args.toList()
+        return this
+    }
+
     void execute() {
         mkdir(dir:target)
         javac( [source:"1.5",
@@ -38,7 +48,7 @@ compile = new CompileTask(
         sources:[_("src/main/java")],
         target: target._("classes"));
 
-testCompile = new CompileTask(
+compileTest = new CompileTask(
         sources:[project._("src/test/java")],
         target: target._("test-classes"));
 
