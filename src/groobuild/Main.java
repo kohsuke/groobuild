@@ -1,9 +1,5 @@
 package groobuild;
 
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-import org.codehaus.groovy.control.CompilerConfiguration;
-
 import java.io.File;
 import java.io.IOException;
 

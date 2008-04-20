@@ -1,9 +1,7 @@
 
-target = _("build")
 inherit "JavaProject";
 
-// TODO: if I do target=project["build"] then
-// I want existing references to 'target' to point to new directory
+target = _("build")
 
 compile.version = 1.5
 compile.sources = ["src"]

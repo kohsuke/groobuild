@@ -161,6 +161,29 @@ public class GrooProject extends GroovyObjectSupport {
     }
 
     /**
+     * Defines a task. <tt>define("foo",task)</tt> is the same as
+     * <tt>foo=task</tt>, and normally the latter is preferrable,
+     * but when the name includes characters that are not allowed
+     * as a token, this verbose form becomes necessary.
+     */
+    public void define(String name, Task task) {
+        Task old = tasks.get(name);
+        if (old instanceof ProxyTask) {
+            // redefining FileTask
+            ProxyTask proxy = (ProxyTask) old;
+            proxy.resolver = ProxyTask.literal((FileTask)task);
+            return;
+        }
+
+        if (task instanceof FileTask) {
+            // place the delegate so that we can redefine the actual path value later
+            task = new ProxyTask((FileTask) task);
+        }
+
+        tasks.put(name,task);
+    }
+
+    /**
      * Pretend as if all the ant tasks are available as the first class method,
      * so that people can write something like the following:
      *
@@ -181,7 +204,7 @@ public class GrooProject extends GroovyObjectSupport {
     /**
      * Pretend as if all the tasks are properties.
      */
-    public Object getProperty(String property) {
+    public Object getProperty(final String property) {
         Task t = tasks.get(property);
         if(t!=null)
             return t;
@@ -190,8 +213,7 @@ public class GrooProject extends GroovyObjectSupport {
 
     public void setProperty(String property, Object newValue) {
         if(newValue instanceof Task) {
-            Task t = (Task)newValue;
-            tasks.put(property,t);
+            define(property,(Task)newValue);
         }
         super.setProperty(property, newValue);
     }

@@ -1,5 +1,4 @@
-if(!target)
-    target = _("target")
+target = _("target")
 
 // TODO: if only Groovy had anonymous class...
 class CompileTask extends groobuild.CustomTask {
@@ -35,22 +34,26 @@ class CompileTask extends groobuild.CustomTask {
         return this
     }
 
+    CompileTask to(dir) {
+        target = dir
+        return this
+    }
+
     void execute() {
         mkdir(dir:target)
         javac( [source:"1.5",
                 target:"1.5",
                 srcdir:sources.join(':'),
-                destdir:target]+options )
+                destdir:target] + options )
     }
 }
 
-compile = new CompileTask(
-        sources:[_("src/main/java")],
-        target: target._("classes"));
+compile = new CompileTask().from(_("src/main/java")).to(target._("classes"))
 
-compileTest = new CompileTask(
-        sources:[project._("src/test/java")],
-        target: target._("test-classes"));
+compileTest = new CompileTask().from(_("src/test/java")).to(target._("test-classes"))
+
+// I need deferred evaluation in path so that I can refer compile.target as classpath for compileTest
+
 
 clean = task {
     delete(dir:target)
