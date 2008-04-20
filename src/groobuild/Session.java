@@ -48,6 +48,14 @@ public class Session {
         return new GroovyShell(classLoader,binding,cc);
     }
 
+    public void setLogger(BuildListener logger) {
+        this.logger = logger;
+    }
+
+    public BuildListener getLogger() {
+        return logger;
+    }
+
     /**
      * Parses a GrooBuild script.
      */
@@ -77,7 +85,8 @@ public class Session {
      */
     /*package*/ AntBuilder createAntBuilder() {
         Project project = new Project();
-        project.addBuildListener(logger);
+        if(logger!=null)
+            project.addBuildListener(logger);
         project.init();
         project.getBaseDir();
         return new AntBuilder(project);
