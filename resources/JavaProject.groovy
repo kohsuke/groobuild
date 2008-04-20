@@ -14,11 +14,18 @@ class CompileTask extends groobuild.CustomTask {
     // where to produce the output?
     def target;
 
+    /**
+     * Convenience method to set both the source/target JDK version.
+     *
+     * <p>
+     * Use it like <tt>compile.version = 1.4</tt>
+     */
     void setVersion(v) {
         options.source=options.target=v.toString()
     }
 
     void execute() {
+        mkdir(dir:target)
         javac( [source:"1.5",
                 target:"1.5",
                 srcdir:sources.join(':'),
@@ -31,7 +38,7 @@ compile = new CompileTask(
         target: target["classes"]);
 
 testCompile = new CompileTask(
-        sources:[project["src/test/jva"]],
+        sources:[project["src/test/java"]],
         target: target["test-classes"]);
 
 clean = task {
