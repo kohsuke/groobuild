@@ -4,8 +4,10 @@ import groovy.lang.GroovyObjectSupport;
 import org.apache.tools.ant.BuildEvent;
 import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.Target;
+import org.apache.tools.ant.Project;
 
 import java.util.Date;
+import java.text.MessageFormat;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -49,10 +51,13 @@ public abstract class AbstractTaskImpl extends GroovyObjectSupport implements Ta
 
         dependency.attain();
 
-        if(isAttained())
-            return; // nothing to do.
-
         BuildListener l = getSession().getLogger();
+
+        if(isAttained()) {
+            log(Project.MSG_DEBUG,"{0} is considered up-to-date",knownAs);
+            return; // nothing to do.
+        }
+
         Target t = new Target();
         t.setName(knownAs);
         l.targetStarted(new BuildEvent(t));
@@ -70,6 +75,12 @@ public abstract class AbstractTaskImpl extends GroovyObjectSupport implements Ta
 
 
         attained = true;
+    }
+
+    private void log(int level, String msg, Object... args) {
+        BuildEvent e = new BuildEvent(project.ant.getAntProject());
+        e.setMessage(MessageFormat.format(msg,args),level);
+        getSession().getLogger().messageLogged(e);
     }
 
     private BuildEvent createBuildEvent(Target t, Throwable e) {

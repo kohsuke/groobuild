@@ -11,11 +11,11 @@ compile._for(1.5).from("src")
 
 
 task("test.in" : depends("test.original")) {
+    echo(message:"touching test.in")
     touch(file:"test.in");
 }
 
 task("test.out" : depends("test.in")) {
-    println "building test.out";
     copy(tofile:"test.out",file:"test.in");
 }
 
