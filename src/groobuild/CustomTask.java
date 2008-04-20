@@ -9,36 +9,14 @@ import java.util.List;
  * @author Kohsuke Kawaguchi
  */
 public abstract class CustomTask extends AbstractTaskImpl {
-    private boolean attained;
-
     /**
      * Intended for the custom task sub-class.
      */
     protected CustomTask() {
         // obtains the current project from the parsing context,
         // and make it anonymous
-        super(GrooProject.getCurrent(),null,null);
+        super(GrooProject.getCurrent(), null);
     }
-
-    public void attain() {
-        if(attained)
-            // optimization. if we know that this task and its dependencies
-            // have already been attained, there's no point in doing dependency.attain()
-            return;
-
-        dependency.attain();
-
-        System.out.println("Running "+name);
-
-        execute();
-
-        attained = true;
-    }
-
-    /**
-     * To be implemented in the custom task Groovy class.
-     */
-    protected abstract void execute();
 
     protected String toPath(List<?> args) {
         StringBuilder buf = new StringBuilder();

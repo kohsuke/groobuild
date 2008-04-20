@@ -115,7 +115,7 @@ public class GrooProject extends GroovyObjectSupport {
     }
 
     public Task task(String taskName, Dependency dep, Closure c) {
-        ScriptTask t = new ScriptTask(this,taskName,dep);
+        ScriptTask t = new ScriptTask(this, dep);
         t.add(c);
         tasks.put(taskName,t);
         return t;
@@ -178,7 +178,7 @@ public class GrooProject extends GroovyObjectSupport {
     }
 
     public void attain(String taskName) throws NoSuchTaskException {
-        getTask(taskName).attain();
+        getTask(taskName).attain(taskName);
     }
 
     /**

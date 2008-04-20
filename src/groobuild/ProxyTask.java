@@ -48,10 +48,6 @@ final class ProxyTask extends GroovyObjectSupport implements Task {
         return resolver.resolve();
     }
 
-    public String getName() {
-        return getDelegate().getName();
-    }
-
     public GrooProject getProject() {
         return getDelegate().getProject();
     }
@@ -60,8 +56,8 @@ final class ProxyTask extends GroovyObjectSupport implements Task {
         return getDelegate().getDependency();
     }
 
-    public void attain() {
-        getDelegate().attain();
+    public void attain(String knownAs) {
+        getDelegate().attain(knownAs);
     }
 
     public Date timestamp() {

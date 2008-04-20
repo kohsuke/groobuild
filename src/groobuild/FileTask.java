@@ -11,7 +11,7 @@ public class FileTask extends ScriptTask {
     public final File target;
 
     public FileTask(GrooProject project, File f) {
-        super(project, f.getPath());
+        super(project);
         this.target = f;
     }
 
@@ -19,7 +19,7 @@ public class FileTask extends ScriptTask {
      * Updates this file (attains this task) and then returns it.
      */
     public File build() {
-        attain();
+        attain(target.getPath());
         return target;
     }
 

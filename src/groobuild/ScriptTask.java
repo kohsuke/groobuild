@@ -17,14 +17,12 @@ public class ScriptTask extends AbstractTaskImpl {
      */
     private final List<Closure> actions = new ArrayList<Closure>();
 
-    private boolean attained;
-
-    public ScriptTask(GrooProject scope, String name, Dependency dep) {
-        super(scope,name,dep);
+    public ScriptTask(GrooProject scope, Dependency dep) {
+        super(scope, dep);
     }
 
-    public ScriptTask(GrooProject scope, String name) {
-        this(scope,name,null);
+    public ScriptTask(GrooProject scope) {
+        this(scope, null);
     }
 
 
@@ -32,28 +30,11 @@ public class ScriptTask extends AbstractTaskImpl {
         actions.add(a);
     }
 
-    public void attain() {
-        if(attained)
-            // optimization. if we know that this task and its dependencies
-            // have already been attained, there's no point in doing dependency.attain()
-            return;
-
-        dependency.attain();
-
-        if(isAttained())
-            return; // nothing to do.
-
-        System.out.println("Running "+name);
-
+    @Override
+    protected void execute() {
         for (Closure action : actions) {
             action.setDelegate(project);
             action.call(this);
         }
-
-        attained = true;
-    }
-
-    protected boolean isAttained() {
-        return attained;
     }
 }
