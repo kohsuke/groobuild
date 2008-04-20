@@ -7,12 +7,15 @@ import org.apache.tools.ant.BuildListener;
 import org.apache.tools.ant.DefaultLogger;
 import org.apache.tools.ant.NoBannerLogger;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.BuildEvent;
 import org.codehaus.groovy.control.CompilerConfiguration;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.Collection;
 
 /**
  * @author Kohsuke Kawaguchi
@@ -90,5 +93,18 @@ public class Session {
         project.init();
         project.getBaseDir();
         return new AntBuilder(project);
+    }
+
+    /**
+     * Executes the session and attains all the specified targets.
+     */
+    public void execute(GrooProject p, Collection<String> targets) {
+        logger.buildStarted(new BuildEvent(p.ant.getAntProject()));
+
+        // TODO: detect cyclic execution of tasks
+        p.attain(targets);
+
+        // TODO: pass in exception
+        logger.buildFinished(new BuildEvent(p.ant.getAntProject()));
     }
 }

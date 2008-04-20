@@ -2,6 +2,7 @@ package groobuild;
 
 import org.apache.tools.ant.DefaultLogger;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.BuildEvent;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.CmdLineException;
@@ -57,8 +58,7 @@ public class Main {
         GrooProject p = new GrooProject(session,buildScript.getParentFile());
         p.load(session.parse(buildScript));
 
-        // TODO: detect cyclic execution of tasks
-        p.attain(targets);
+        session.execute(p,targets);
 
         return 0;
     }
