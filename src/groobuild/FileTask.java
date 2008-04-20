@@ -54,4 +54,20 @@ public class FileTask extends ScriptTask {
     public FileTask _(String relativePath) {
         return new FileTask(project,new File(target,relativePath));
     }
+
+    public static FileTask coerce(GrooProject project, Object arg) {
+        if (arg instanceof File) {
+            return new FileTask(project, (File) arg);
+        }
+        if (arg instanceof String) {
+            arg = project._((String) arg);
+        }
+        if (arg instanceof ProxyTask) {
+            arg = ((ProxyTask) arg).getDelegate();
+        }
+        if (arg instanceof FileTask) {
+            return (FileTask)arg;
+        }
+        throw new IllegalArgumentException("Don't know how to convert " + arg + " to a file");
+    }
 }

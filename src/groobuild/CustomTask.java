@@ -50,19 +50,8 @@ public abstract class CustomTask extends AbstractTaskImpl {
     }
 
     private File toFile(Object arg) {
-        if (arg instanceof File) {
-            return (File) arg;
-        }
-        if (arg instanceof String) {
-            arg = project._((String) arg);
-        }
-        if (arg instanceof ProxyTask) {
-            arg = ((ProxyTask) arg).getDelegate();
-        }
-        if (arg instanceof FileTask) {
-            return ((FileTask) arg).build();
-        }
-        throw new IllegalArgumentException("Don't know how to convert "+arg+" to a file");
+        // make sure the file is attained before we use it
+        return FileTask.coerce(project,arg).build();
     }
 
     /**

@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import groobuild.ProxyTask.Resolver;
+
 /**
  * Project definition.
  *
@@ -124,6 +126,14 @@ public class GrooProject extends GroovyObjectSupport {
      */
     public Task task(Closure c) {
         return task(null,null,c);
+    }
+
+    public ProxyTask proxy(final Closure c) {
+        return new ProxyTask(new Resolver() {
+            public FileTask resolve() {
+                return FileTask.coerce(GrooProject.this,c.call());
+            }
+        });
     }
 
     // TODO: allow partial task definition
