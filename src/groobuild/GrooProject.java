@@ -71,9 +71,9 @@ public class GrooProject extends GroovyObjectSupport {
     }
 
     /**
-     * project["src/main/java"] means a directory.
+     * <tt>_("src/main/java")</tt> means a directory.
      */
-    public FileTask getAt(String path) {
+    public FileTask _(String path) {
         return new FileTask(this,toFile(path));
     }
 

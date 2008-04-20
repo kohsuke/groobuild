@@ -1,6 +1,11 @@
+
+target = _("build")
 inherit "JavaProject";
 
-compile.version = "1.4"
+// TODO: if I do target=project["build"] then
+// I want existing references to 'target' to point to new directory
+
+compile.version = 1.5
 compile.sources = ["src"]
 
 task("test.in" : depends("test.original")) {

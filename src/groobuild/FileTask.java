@@ -43,7 +43,7 @@ public class FileTask extends ScriptTask {
     /**
      * Allows sub path to be obtained like {@code dir["relative"]}
      */
-    public FileTask getAt(String relativePath) {
+    public FileTask _(String relativePath) {
         return new FileTask(project,new File(target,relativePath));
     }
 }

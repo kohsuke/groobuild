@@ -1,4 +1,5 @@
-target = project["target"]
+if(!target)
+    target = _("target")
 
 // TODO: if only Groovy had anonymous class...
 class CompileTask extends groobuild.CustomTask {
@@ -34,12 +35,12 @@ class CompileTask extends groobuild.CustomTask {
 }
 
 compile = new CompileTask(
-        sources:[project["src/main/java"]],
-        target: target["classes"]);
+        sources:[_("src/main/java")],
+        target: target._("classes"));
 
 testCompile = new CompileTask(
-        sources:[project["src/test/java"]],
-        target: target["test-classes"]);
+        sources:[project._("src/test/java")],
+        target: target._("test-classes"));
 
 clean = task {
     delete(dir:target)
