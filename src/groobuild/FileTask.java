@@ -10,8 +10,8 @@ import java.util.Date;
 public class FileTask extends ScriptTask {
     public final File target;
 
-    public FileTask(GrooProject scope, File f) {
-        super(scope, f.getPath());
+    public FileTask(GrooProject project, File f) {
+        super(project, f.getPath());
         this.target = f;
     }
 
@@ -38,5 +38,12 @@ public class FileTask extends ScriptTask {
      */
     public String toString() {
         return target.getPath();
+    }
+
+    /**
+     * Allows sub path to be obtained like {@code dir["relative"]}
+     */
+    public FileTask getAt(String relativePath) {
+        return new FileTask(project,new File(target,relativePath));
     }
 }
