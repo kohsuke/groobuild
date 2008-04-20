@@ -18,6 +18,16 @@ public abstract class CustomTask extends AbstractTaskImpl {
         super(GrooProject.getCurrent(), null);
     }
 
+    /**
+     * If this task produces a file/directory,
+     * this method returns it.
+     *
+     * @see FileTask#coerce(GrooProject, Object) 
+     */
+    public FileTask produces() {
+        return null;
+    }
+
     protected String toPath(List<?> args) {
         StringBuilder buf = new StringBuilder();
         for (Object arg : args) {

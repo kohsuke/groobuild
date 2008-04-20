@@ -10,6 +10,7 @@ compile.sources = ["src"]
 compile._for(1.5).from("src")
 
 
+// TODO: should this create a file task?
 task("test.in" : depends("test.original")) {
     echo(message:"touching test.in")
     touch(file:"test.in");

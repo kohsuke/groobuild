@@ -31,10 +31,11 @@ public class ScriptTask extends AbstractTaskImpl {
     }
 
     @Override
-    protected void execute() {
+    protected Object execute() {
         for (Closure action : actions) {
             action.setDelegate(project);
             action.call(this);
         }
+        return null;
     }
 }

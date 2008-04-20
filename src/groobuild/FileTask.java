@@ -1,5 +1,7 @@
 package groobuild;
 
+import groovy.lang.Closure;
+
 import java.io.File;
 import java.util.Date;
 
@@ -49,13 +51,15 @@ public class FileTask extends ScriptTask {
     }
 
     /**
-     * Allows sub path to be obtained like {@code dir["relative"]}
+     * Allows sub path to be obtained like {@code dir._("relative")}
      */
     public FileTask _(String relativePath) {
         return new FileTask(project,new File(target,relativePath));
     }
 
     public static FileTask coerce(GrooProject project, Object arg) {
+        while (arg instanceof Closure)
+            arg = ((Closure)arg).call();
         if (arg instanceof File) {
             return new FileTask(project, (File) arg);
         }
@@ -67,6 +71,11 @@ public class FileTask extends ScriptTask {
         }
         if (arg instanceof FileTask) {
             return (FileTask)arg;
+        }
+        if (arg instanceof CustomTask) {
+            FileTask ft = ((CustomTask) arg).produces();
+            if(ft!=null)
+                return ft;
         }
         throw new IllegalArgumentException("Don't know how to convert " + arg + " to a file");
     }

@@ -17,6 +17,7 @@ public abstract class AbstractTaskImpl extends GroovyObjectSupport implements Ta
     protected final GrooProject project;
     protected final Dependency dependency;
     private boolean attained;
+    private Object result;
 
     public AbstractTaskImpl(GrooProject project, Dependency dependency) {
         this.project = project;
@@ -89,7 +90,11 @@ public abstract class AbstractTaskImpl extends GroovyObjectSupport implements Ta
         return event;
     }
 
-    protected abstract void execute();
+    /**
+     * Executes the task, and if it yields something
+     * that can be coersed into {@link FileTask} it returns that.
+     */
+    protected abstract Object execute();
 
     protected boolean isAttained() {
         return attained;
