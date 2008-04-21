@@ -72,6 +72,12 @@ public class FileTask extends ScriptTask {
         if (arg instanceof FileTask) {
             return (FileTask)arg;
         }
+        if (arg instanceof InputPin) {
+            return ((InputPin) arg).value;
+        }
+        if (arg instanceof OutputPin) {
+            return ((OutputPin) arg).resolve();
+        }
         if (arg instanceof CustomTask) {
             FileTask ft = ((CustomTask) arg).produces();
             if(ft!=null)

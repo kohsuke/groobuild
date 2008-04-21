@@ -1,5 +1,4 @@
 import groobuild.CustomTask
-import groobuild.FileTask
 
 class CompileTask extends CustomTask {
     /**
@@ -10,19 +9,21 @@ class CompileTask extends CustomTask {
         target:"1.5"
     ]
 
-    // classpath
-    def classpath = []
+    CompileTask() {
+        // classpath
+        this.classpath = inputPin().ofList()
 
-    // list of source directories
-    def sources = [];
+        // list of source directories
+        this.sources = inputPin().ofList()
 
-    /**
-     * This is aliased to "this", so that
-     * you can write {@code compile.output} where another task
-     * expects an output from the compiler. This is just so that
-     * the core reads better.
-     */
-    final def output = this;
+        /**
+         * This is aliased to "this", so that
+         * you can write {@code compile.output} where another task
+         * expects an output from the compiler. This is just so that
+         * the core reads better.
+         */
+        this.output = outputPin();
+    }
 
 
     /**

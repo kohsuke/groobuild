@@ -9,8 +9,7 @@ class JarTask extends CustomTask {
 
     def manifest
 
-    protected void execute() {
+    protected Object execute() {
         throw new UnsupportedOperationException();
     }
-
 }
