@@ -5,6 +5,8 @@ import groovy.lang.Closure;
 
 import java.util.Date;
 
+import zolter.GrooProject;
+
 /**
  * Indirection to {@link FileTask},
  * so that the wiring of dependencies can be done before the actual path locations

@@ -5,6 +5,8 @@ import groovy.lang.Closure;
 import java.util.ArrayList;
 import java.util.List;
 
+import zolter.GrooProject;
+
 /**
  * Task that executes the groovy script once.
  * 

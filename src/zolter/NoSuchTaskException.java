@@ -1,4 +1,4 @@
-package groobuild;
+package zolter;
 
 /**
  * @author Kohsuke Kawaguchi

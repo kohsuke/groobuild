@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import zolter.GrooProject;
+
 /**
  * @author Kohsuke Kawaguchi
  */
@@ -49,7 +51,7 @@ public abstract class CustomTask extends AbstractTaskImpl {
      * If this task produces a file/directory,
      * this method returns it.
      *
-     * @see FileTask#coerce(GrooProject, Object) 
+     * @see FileTask#coerce(GrooProject , Object)
      */
     public FileTask produces() {
         return null;

@@ -9,6 +9,9 @@ import org.apache.tools.ant.Project;
 import java.util.Date;
 import java.text.MessageFormat;
 
+import zolter.GrooProject;
+import zolter.Session;
+
 /**
  * @author Kohsuke Kawaguchi
  */
@@ -37,7 +40,7 @@ public abstract class AbstractTaskImpl extends GroovyObjectSupport implements Ta
      * Short cut for accessing {@link Session}.
      */
     public Session getSession() {
-        return project.getSession();
+        return project.session;
     }
 
     public Date timestamp() {

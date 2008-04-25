@@ -1,4 +1,4 @@
-package groobuild;
+package zolter;
 
 import groovy.lang.Binding;
 import groovy.lang.Closure;

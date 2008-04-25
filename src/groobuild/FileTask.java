@@ -5,6 +5,8 @@ import groovy.lang.Closure;
 import java.io.File;
 import java.util.Date;
 
+import zolter.GrooProject;
+
 /**
  * {@link Task} that creates/updates a file.
  * @author Kohsuke Kawaguchi
